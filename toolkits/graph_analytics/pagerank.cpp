@@ -30,7 +30,7 @@
 // Global random reset probability
 double RESET_PROB = 0.15;
 
-double TOLERANCE = 1.0E-2;
+double TOLERANCE = 1.0E-8;
 
 size_t ITERATIONS = 0;
 
