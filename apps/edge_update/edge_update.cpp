@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <fstream>
+#include <chrono>
 
 #include <graphlab.hpp>
 
@@ -80,6 +81,8 @@ int main(int argc, char** argv) {
 	graph.finalize();
 	dc.cout() << "#vertices: " << graph.num_vertices() << " #edges:" << graph.num_edges() << std::endl;
 
+	auto t_start = std::chrono::high_resolution_clock::now();
+
 	// Update the graph  ----------------------------------------------------------
 	std::ifstream infile;
 	infile.open(updates_dir.c_str());
@@ -102,6 +105,12 @@ int main(int argc, char** argv) {
 	graph.finalize();
 
 	infile.close();
+
+	auto t_end = std::chrono::high_resolution_clock::now();
+
+	std::cout << "Graph update took: "
+              << std::chrono::duration<double, std::milli>(t_end-t_start).count()
+              << " ms\n";
 
 	// Save the final graph -----------------------------------------------------
 	if (saveprefix != "") {

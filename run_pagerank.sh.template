@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters"
+    exit
+fi
+
+mpiexec -n $1 -hostfile ~/machines /home/g2feng/PowerGraph/release/toolkits/graph_analytics/pagerank --graph=/home/g2feng/graphdb-testing/rmatter/graph_20.out --format=tsv

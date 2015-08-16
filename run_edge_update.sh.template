@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./edge_update --graph=/home/g2feng/graphdb-testing/rmatter/graph.out --format=tsv --update=/home/g2feng/graphdb-testing/rmatter/actions.out
