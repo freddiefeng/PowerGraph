@@ -81,12 +81,10 @@ int main(int argc, char** argv) {
 	graph.finalize();
 	dc.cout() << "#vertices: " << graph.num_vertices() << " #edges:" << graph.num_edges() << std::endl;
 
-	auto t_start = std::chrono::high_resolution_clock::now();
-
-	// Update the graph  ----------------------------------------------------------
 	std::ifstream infile;
 	infile.open(updates_dir.c_str());
 	long src, dst;
+	std::vector<graphlab::vertex_id_type> buffer;
 
 	while(infile >> src >> dst) {
 		if (src < 0)
@@ -94,13 +92,25 @@ int main(int argc, char** argv) {
 		if (dst < 0)
 			dst = ~dst;
 		std::cout << "adding " << src << " " << dst << std::endl;
+		buffer.push_back((graphlab::vertex_id_type)src);
+		buffer.push_back((graphlab::vertex_id_type)dst);
 	}
 
-	graphlab::vertex_id_type source, target;
-	source = (graphlab::vertex_id_type)1;
-	target = (graphlab::vertex_id_type)10;
-	graph.add_vertex((graphlab::vertex_id_type)10);
-	graph.add_edge(source, target);
+	graphlab::vertex_id_type* edges = &buffer[0];
+
+	auto t_start = std::chrono::high_resolution_clock::now();
+
+	// Update the graph  ----------------------------------------------------------
+
+	// graphlab::vertex_id_type source, target;
+	// source = (graphlab::vertex_id_type)1;
+	// target = (graphlab::vertex_id_type)10;
+	// graph.add_vertex((graphlab::vertex_id_type)10);
+	// graph.add_edge(source, target);
+
+	for (int i = 0; i < buffer.size(); i += 2) {
+		graph.add_edge(edges[i], edges[i+1]);
+	}
 
 	graph.finalize();
 
